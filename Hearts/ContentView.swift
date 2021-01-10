@@ -29,9 +29,9 @@ struct ContentView: View {
 			HStack{
 				Spacer()
 				ForEach(players) { player in
-					var scores = Array(player.scores!)
+					let scores = getPlayerScores(player: player)
 					List (scores, id: \.self) { score in
-						Text("\(score ?? 0)")
+						Text("\(score)")
 					}
 				}
 				.onDelete(perform: deleteItems)
@@ -78,6 +78,14 @@ struct ContentView: View {
             }
         }
     }
+	
+	private func getPlayerScores(player: Player) -> Array<Int> {
+		var scores = Array<Int>()
+		for score in player.scores! {
+				scores.append(Int((score as! Score).points))
+		}
+		return scores
+	}
 }
 
 struct ContentView_Previews: PreviewProvider {
