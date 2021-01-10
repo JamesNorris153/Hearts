@@ -11,33 +11,47 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+	@FetchRequest(
+		entity: Player.entity(),
+		sortDescriptors: [])
+    private var players: FetchedResults<Player>
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-            }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
-
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
-            }
-        }
+		VStack {
+			HStack {
+				Spacer()
+				ForEach (players) { player in
+					Text("\(player.name!)").frame(maxWidth: .infinity)
+				}
+				Spacer()
+			}
+		 
+			HStack{
+				Spacer()
+				ForEach(players) { player in
+					var scores = Array(player.scores!)
+					List (scores, id: \.self) { score in
+						Text("\(score ?? 0)")
+					}
+				}
+				.onDelete(perform: deleteItems)
+				
+				Spacer()
+			}
+			.toolbar {
+			   EditButton()
+			   
+			   Button(action: addItem) {
+				   Label("Add Item", systemImage: "plus")
+			   }
+			}
+		}
     }
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+			let player = Player(context: viewContext)
+            player.name = "New Player"
 
             do {
                 try viewContext.save()
@@ -52,7 +66,7 @@ struct ContentView: View {
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { players[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
@@ -65,13 +79,6 @@ struct ContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
