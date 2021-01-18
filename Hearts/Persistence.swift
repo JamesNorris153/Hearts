@@ -16,13 +16,16 @@ struct PersistenceController {
         for i in 0..<4 {
             let newPlayer = Player(context: viewContext)
             newPlayer.name = "Player \(i+1)"
+        }
+		for i in 0..<10 {
+			let newRound = Round(context: viewContext)
+			newRound.number = Int16(i)
 			for j in 0..<10 {
 				let newScore = Score(context: viewContext)
-				newPlayer.addToScores(newScore)
+				newRound.addToScores(newScore)
 				newScore.points = Int16(j)
-				newScore.roundNumber = Int16(j)
 			}
-        }
+		}
         do {
             try viewContext.save()
         } catch {
