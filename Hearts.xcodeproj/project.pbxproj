@@ -139,15 +139,15 @@
 		1AC9949B25A50C720051C6EF /* Hearts */ = {
 			isa = PBXGroup;
 			children = (
-				1A5381B22635FB2A00B0D6E0 /* ViewModel */,
-				1A5381B12635FB2000B0D6E0 /* View */,
-				1A24E900263496270099F0A3 /* Model */,
-				1AC9949C25A50C720051C6EF /* HeartsApp.swift */,
 				1AC994A025A50C730051C6EF /* Assets.xcassets */,
-				1AC994A525A50C730051C6EF /* Persistence.swift */,
-				1AC994AA25A50C730051C6EF /* Info.plist */,
 				1AC994A725A50C730051C6EF /* Hearts.xcdatamodeld */,
+				1AC9949C25A50C720051C6EF /* HeartsApp.swift */,
+				1AC994AA25A50C730051C6EF /* Info.plist */,
+				1A24E900263496270099F0A3 /* Model */,
+				1AC994A525A50C730051C6EF /* Persistence.swift */,
 				1AC994A225A50C730051C6EF /* Preview Content */,
+				1A5381B12635FB2000B0D6E0 /* View */,
+				1A5381B22635FB2A00B0D6E0 /* ViewModel */,
 			);
 			path = Hearts;
 			sourceTree = "<group>";

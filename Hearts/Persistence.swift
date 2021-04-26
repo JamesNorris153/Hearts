@@ -9,33 +9,20 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
-    static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
-        for i in 0..<4 {
-            let newPlayer = Player(context: viewContext)
-            newPlayer.name = "Player \(i+1)"
-        }
-		for i in 0..<10 {
-			let newRound = Round(context: viewContext)
-			newRound.number = Int16(i)
-			for j in 0..<10 {
-				let newScore = Score(context: viewContext)
-				newRound.addToScores(newScore)
-				newScore.points = Int16(j)
-			}
+	static let viewContext = shared.container.viewContext
+	
+	static func save() {
+		do {
+			try self.viewContext.save()
+		} catch {
+			let nsError = error as NSError
+			fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
 		}
-        do {
-            try viewContext.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        return result
-    }()
+	}
+	
+	static func delete(object: NSManagedObject) {
+		self.viewContext.delete(object)
+	}
 
     let container: NSPersistentCloudKitContainer
 
