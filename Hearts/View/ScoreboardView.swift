@@ -14,13 +14,13 @@ struct ScoreboardView: View {
 							.multilineTextAlignment(.center)
 							.frame(maxWidth: .infinity)
 						
-						ForEach(self.viewModel.getScores(player: player)) { (score: Score) in
+						ForEach(self.viewModel.scores[player] ?? [Score]()) { (score: Score) in
 							ScoreView(viewModel: ScoreViewModel(score: score), onCommit: refreshTotals)
 						}
 						
 						Spacer()
 						
-						Text(String(self.viewModel.getTotal(player: player)))
+						Text("\(self.viewModel.totals[player] ?? 0)")
 							.multilineTextAlignment(.center)
 							.frame(maxWidth: .infinity)
 					}
@@ -38,8 +38,6 @@ struct ScoreboardView: View {
 	}
 	
 	func refreshTotals() {
-		for player in self.viewModel.players {
-			self.viewModel.totals[player] = self.viewModel.getTotal(player: player)
-		}
+		self.viewModel.refreshTotals()
 	}
 }

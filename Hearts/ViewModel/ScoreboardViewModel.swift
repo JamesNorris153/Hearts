@@ -35,17 +35,13 @@ class ScoreboardViewModel: ObservableObject, Identifiable {
 		}
 	}
 	
-	func getScores(player: Player) -> [Score] {
-		return self.scores[player] ?? [Score]()
-	}
-	
 	func refreshTotals() {
 		for player in self.players {
 			self.totals[player] = self.getTotal(player: player)
 		}
 	}
 	
-	func getTotal(player: Player) -> Int {
+	private func getTotal(player: Player) -> Int {
 		if self.scores[player] == nil { return 0 }
 		
 		var total = 0

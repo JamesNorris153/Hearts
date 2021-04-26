@@ -8,7 +8,7 @@ struct ScoreView: View {
 		VStack {
 			TextField(
 				"X",
-				value: $viewModel.score.points,
+				value: self.$viewModel.score.points,
 				formatter: NumberFormatter(),
 				onCommit: {
 					onCommit()
