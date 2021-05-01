@@ -32,8 +32,16 @@ struct ScoreboardView: View {
 			Spacer()
 			Stepper(
 				"stepper",
-				onIncrement: { self.viewModel.appendScore() },
-				onDecrement: { self.viewModel.removeLastScore() })
+				onIncrement:
+					{
+						self.viewModel.appendScore()
+						self.viewModel.refreshTotals()
+					},
+				onDecrement:
+					{
+						self.viewModel.removeLastScore()
+						self.viewModel.refreshTotals()
+					})
 		}
 	}
 	
